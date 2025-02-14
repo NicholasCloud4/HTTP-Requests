@@ -1,4 +1,4 @@
-async function fetchAvailablePlaces() {
+export async function fetchAvailablePlaces() {
     const res = await fetch('http://localhost:3000/places')
     const data = await res.json();
 
@@ -9,4 +9,21 @@ async function fetchAvailablePlaces() {
     return data.places;
 }
 
-export { fetchAvailablePlaces }
+export async function updateUserPlaces(places) {
+    const res = await fetch("http://localhost:3000/user-places", {
+        method: "PUT",
+        body: JSON.stringify({ places: places }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
+    const data = await res.json()
+
+    if (!res.ok) {
+        throw new Error('Something went wrong! Failed to update user places.');
+    }
+
+    return data.message
+
+}
